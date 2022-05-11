@@ -1,0 +1,17 @@
+<div>
+    <div class="div-regonized-text">
+        <span>&nbsp;</span>
+        <span class="recognized-text" *ngFor="let text of recognizeText" (click)="recognizedTextSelected($event)">{{text}}</span>
+    </div>
+    <canvas id="canvas-write-board" width="{{width}}" height="{{height}}" 
+        (mousedown)="writeboardMouseDown($event)"
+        (mousemove)="writeboardMouseMove($event)" (mouseup)="writeboardMouseUp($event)"
+        (touchstart)="writeboardTouchStart($event)" (touchmove)="writeboardTouchMove($event)"
+        (touchend)="writeboardTouchEnd($event)"></canvas>
+        <div>
+            <button [disabled]="step.length===0" (click)="undo()">Undo</button>
+            <button [disabled]="trace.length===0" (click)="redo()">Redo</button>
+            <button [disabled]="trace.length===0" (click)="recognize()">Recognize</button>
+            <button (click)="reset()">Reset</button>
+        </div>
+</div>
