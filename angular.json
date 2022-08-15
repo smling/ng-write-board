@@ -36,5 +36,8 @@
       }
     }
   },
-  "defaultProject": "ng-write-board"
+  "defaultProject": "ng-write-board",
+  "cli": {
+    "analytics": false
+  }
 }
