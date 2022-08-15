@@ -9,6 +9,9 @@
         (touchstart)="writeboardTouchStart($event)" (touchmove)="writeboardTouchMove($event)"
         (touchend)="writeboardTouchEnd($event)"></canvas>
         <div>
+            <select>
+                <option *ngFor="let language of languages" [value]="language" >{{languageToLabelMapping[language]}}</option>
+            </select>
             <button [disabled]="step.length===0" (click)="undo()">Undo</button>
             <button [disabled]="trace.length===0" (click)="redo()">Redo</button>
             <button [disabled]="trace.length===0" (click)="recognize()">Recognize</button>

@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, Input, Output, EventEmitter, AfterContentInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterContentInit } from '@angular/core';
 import { GoogleInputToolService } from '../services/google-input-tool.service';
+import { Language, LanguageToLabelMapping } from './language';
 import { WriteBoardOption } from './write-board-option';
 
 @Component({
@@ -21,6 +22,9 @@ export class WriteboardComponent implements AfterContentInit {
 
   @Output()
   textSelected = new EventEmitter();
+
+  languages : string[] = Object.values(Language);
+  public languageToLabelMapping : Record<Language, string> = LanguageToLabelMapping;
 
   drawing: boolean = false;
   handwritingX : number[] = [];
@@ -82,8 +86,8 @@ export class WriteboardComponent implements AfterContentInit {
     event.preventDefault();
     if (this.drawing) {
       const rect = this.writeBoardCanvas!.getBoundingClientRect();
-      const x = event.clientX - rect!.left;
-      const y = event.clientY - rect!.top;
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
       this.writeBoardContext?.lineTo(x, y);
       this.writeBoardContext?.stroke();
       this.handwritingX.push(x);
@@ -111,8 +115,8 @@ export class WriteboardComponent implements AfterContentInit {
     this.handwritingX = [];
     this.handwritingY = [];
     const box = this.writeBoardCanvas?.getBoundingClientRect();
-    const top = box!.top + window.pageYOffset - document.documentElement.clientTop;
-    const left = box!.left + window.pageXOffset - document.documentElement.clientLeft;
+    const top = box!.top + window.scrollY - document.documentElement.clientTop;
+    const left = box!.left + window.scrollX - document.documentElement.clientLeft;
     const touch = event.changedTouches[0];
     const touchX = touch.pageX - left;
     const touchY = touch.pageY - top;
@@ -126,8 +130,8 @@ export class WriteboardComponent implements AfterContentInit {
     event.preventDefault();
     const touch = event.targetTouches[0];
     const box = this.writeBoardCanvas!.getBoundingClientRect();
-    const top = box.top + window.pageYOffset - document.documentElement.clientTop;
-    const left = box.left + window.pageXOffset - document.documentElement.clientLeft;
+    const top = box.top + window.scrollY - document.documentElement.clientTop;
+    const left = box.left + window.scrollX - document.documentElement.clientLeft;
     const x = touch.pageX - left;
     const y = touch.pageY - top;
     this.handwritingX.push(x);
@@ -173,7 +177,6 @@ export class WriteboardComponent implements AfterContentInit {
 
   redo() {
     const allowUndo = this.writeBoardOption.allowUndo;
-    const allowRedo = this.writeBoardOption.allowRedo;
     if (!allowUndo || this.step.length <= 0) return;
         this.step.push(this.redoStep.pop());
         this.trace.push(this.redoTrace.pop());
@@ -190,7 +193,7 @@ export class WriteboardComponent implements AfterContentInit {
   }
 
   recognize() {
-    this.googleInputToolService.recognize(this.trace, this.width!, this.height!, this.writeBoardOption.language).subscribe((response: { type: number; status: any; body: any; }) => {
+    this.googleInputToolService.recognize(this.trace, this.writeBoardOption.language).subscribe((response: { type: number; status: any; body: any; }) => {
       if(response.type === 4) {
         switch (response.status) {
            case 200:

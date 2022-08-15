@@ -1,5 +1,5 @@
 {
-  "name": "ng-write-board",
+  "name": "@smling/ng-write-board",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "~13.3.0",
     "@angular/common": "~13.3.0",
@@ -36,5 +36,12 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "ng-packagr": "^13.0.0",
     "typescript": "~4.6.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smling/ng-write-board.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/smling"
   }
 }

@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { WriteBoardOption } from '../writeboard/write-board-option';
+import { Language } from '../writeboard/language';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class GoogleInputToolService {
   constructor(private httpClient: HttpClient) { 
    }
 
-  recognize(trace: any, width: number, height: number, language: string) : any{
+  recognize(trace: any, language: Language) : any{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

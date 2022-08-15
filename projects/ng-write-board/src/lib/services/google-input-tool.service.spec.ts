@@ -4,6 +4,7 @@ import { GoogleInputToolService } from './google-input-tool.service';
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
+import { Language } from '../writeboard/language';
 
 describe('GoogleInputToolService', () => {
   let httpTestingController: HttpTestingController;
@@ -110,7 +111,6 @@ describe('GoogleInputToolService', () => {
       providers: [HttpClient]
     });
     httpTestingController = TestBed.inject(HttpTestingController);
-    // googleInputToolservice = TestBed.inject(GoogleInputToolService);
   });
 
   beforeEach(inject(
@@ -124,7 +124,7 @@ describe('GoogleInputToolService', () => {
   });
   
   it('Given valid trace, when call recognize(), then HTTP 200 with data responsed.', () => {
-    googleInputToolservice.recognize(dummyTrace,400, 400, "zh_TW").subscribe((r: any) => {
+    googleInputToolservice.recognize(dummyTrace, Language.ChineseTraditional).subscribe((r: any) => {
       expect(r).toEqual(expectedResponse);
     });
     let expectedResponse = httpTestingController.expectOne({
